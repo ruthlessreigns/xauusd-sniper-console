@@ -1,0 +1,5 @@
+streamlit
+MetaTrader5
+requests
+pandas
+matplotlib
