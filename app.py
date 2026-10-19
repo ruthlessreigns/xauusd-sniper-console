@@ -5,7 +5,13 @@ import datetime
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
-import MetaTrader5 as mt5
+
+# MetaTrader 5 Safety Import for Cloud Deployment
+try:
+    import MetaTrader5 as mt5
+    MT5_AVAILABLE = True
+except ImportError:
+    MT5_AVAILABLE = False
 
 # ==========================================
 # 1. PAGE CONFIGURATION
@@ -87,8 +93,8 @@ def get_rates(symbol, timeframe, count=50):
 # 4. STEP 1: FETCH DATA FROM USER'S MT5
 # ==========================================
 def fetch_data_from_mt5():
-    if not mt5.initialize():
-        st.error("❌ Unable to connect to MT5! Please verify that MetaTrader 5 is running on your system.")
+    if not MT5_AVAILABLE:
+        st.error("❌ MetaTrader 5 is only supported on local Windows desktop environments. Please run this app locally on your PC.")
         return None
 
     df_h4 = get_rates(SYMBOL, mt5.TIMEFRAME_H4, 50)
